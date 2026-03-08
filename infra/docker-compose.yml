@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: trustdevis
+      POSTGRES_USER: trustdevis
+      POSTGRES_PASSWORD: trustdevis_dev_password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ../apps/api
+    environment:
+      DATABASE_URL: postgresql+psycopg://trustdevis:trustdevis_dev_password@db:5432/trustdevis
+      UPLOAD_DIR: /data/uploads
+    volumes:
+      - uploads:/data/uploads
+    ports:
+      - "8080:8000"
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  uploads:
