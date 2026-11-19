@@ -1,0 +1,20 @@
+# Configuration docker-compose pour artisans-compare
+
+services:
+  artisans-compare:
+    build: .
+    container_name: trustdevis-artisans-compare
+    ports:
+      - "8010:8010"
+    environment:
+      - PORT=8010
+      - DATABASE_PATH=/data/artisans.db
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+    networks:
+      - trustdevis-network
+
+networks:
+  trustdevis-network:
+    external: true

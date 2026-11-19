@@ -1,0 +1,39 @@
+{
+  "name": "@trustdevis/project-manager",
+  "version": "1.0.0",
+  "description": "Outil de gestion de projet travaux pour TrustDevis",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon api/server.js",
+    "start": "node api/server.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "db:migrate": "node database/migrate.js",
+    "db:seed": "node database/seed.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "sqlite3": "^5.1.6",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^9.0.0",
+    "date-fns": "^2.30.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
+  },
+  "keywords": [
+    "trustdevis",
+    "projet",
+    "chantier",
+    "gestion",
+    "artisan"
+  ],
+  "author": "TrustDevis",
+  "license": "MIT"
+}

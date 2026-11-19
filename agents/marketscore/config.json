@@ -1,0 +1,36 @@
+{
+  "service": "MarketScore",
+  "version": "1.0.0",
+  "description": "Agent d'analyse automatique des devis TrustDevis",
+  "status": "active",
+  "started_at": "2026-03-09T01:30:00Z",
+  "config": {
+    "check_interval_minutes": 5,
+    "hourly_report": true,
+    "pricing_db": "/root/.openclaw/workspace/trustdevis/agents/pricing-engine/pricing.db",
+    "marketscore_db": "/root/.openclaw/workspace/trustdevis/agents/marketscore/marketscore.db",
+    "results_dir": "/root/.openclaw/workspace/trustdevis/agents/marketscore/results"
+  },
+  "thresholds": {
+    "moderate_risk": 25,
+    "high_risk": 40,
+    "human_review_score": 60
+  },
+  "weights": {
+    "main_oeuvre": 0.35,
+    "materiaux": 0.25,
+    "pieces": 0.25,
+    "deplacement": 0.10,
+    "diagnostic": 0.05,
+    "autre": 0.10
+  },
+  "stats": {
+    "total_analyzed": 3,
+    "total_pending": 0,
+    "avg_score": 22.0,
+    "total_anomalies": 6,
+    "high_risk_count": 2,
+    "moderate_risk_count": 0,
+    "low_risk_count": 1
+  }
+}

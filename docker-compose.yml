@@ -1,0 +1,166 @@
+# TrustDevis - stack locale des microservices "agents"
+#
+#   cp .env.example .env      # optionnel : sinon les valeurs par défaut ci-dessous s'appliquent
+#   docker compose up -d --build
+#
+# Chaque agent est une API FastAPI ; sa doc interactive est sur http://localhost:<port>/docs
+# Les ports ne sont ouverts que sur la machine locale (127.0.0.1).
+
+x-healthcheck: &healthcheck
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 20s
+
+x-agent: &agent
+  restart: unless-stopped
+  networks:
+    - trustdevis-network
+  depends_on:
+    - db
+
+x-db-url: &db-url
+  DATABASE_URL: postgresql://${POSTGRES_USER:-trustdevis}:${POSTGRES_PASSWORD:-trustdevis_local}@db:5432/${POSTGRES_DB:-trustdevis}
+
+services:
+  # Extraction OCR (Tesseract) des devis PDF / image
+  ocr-parser:
+    <<: *agent
+    build: ./agents/ocr-parser
+    container_name: trustdevis-ocr
+    ports:
+      - "127.0.0.1:8001:8000"
+    environment:
+      <<: *db-url
+    healthcheck:
+      <<: *healthcheck
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+
+  # Normalisation des lignes de devis en catégories de travaux
+  normalizer:
+    <<: *agent
+    build: ./agents/normalizer
+    container_name: trustdevis-normalizer
+    ports:
+      - "127.0.0.1:8002:8000"
+    environment:
+      <<: *db-url
+    healthcheck:
+      <<: *healthcheck
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+
+  # Prix médians du marché par catégorie et région
+  pricing-engine:
+    <<: *agent
+    build: ./agents/pricing-engine
+    container_name: trustdevis-pricing
+    ports:
+      - "127.0.0.1:8003:8000"
+    environment:
+      <<: *db-url
+    healthcheck:
+      <<: *healthcheck
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/')"]
+
+  # Score de confiance d'un devis (règles + LLM optionnel)
+  marketscore:
+    <<: *agent
+    build: ./agents/marketscore
+    container_name: trustdevis-marketscore
+    ports:
+      - "127.0.0.1:8004:8000"
+    environment:
+      <<: *db-url
+      KIMI_API_KEY: ${KIMI_API_KEY:-}
+    healthcheck:
+      <<: *healthcheck
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+
+  # Recherche d'artisans / prospects
+  leadfinder:
+    <<: *agent
+    build: ./agents/leadfinder
+    container_name: trustdevis-leadfinder
+    ports:
+      - "127.0.0.1:8005:8000"
+    environment:
+      <<: *db-url
+    healthcheck:
+      <<: *healthcheck
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+
+  # CRM : relances automatiques (onboarding, conversion, NPS, renouvellement)
+  crm:
+    <<: *agent
+    build: ./agents/crm
+    container_name: trustdevis-crm
+    ports:
+      - "127.0.0.1:8006:8001"
+    environment:
+      <<: *db-url
+      REDIS_URL: redis://:${REDIS_PASSWORD:-trustdevis_local}@redis:6379/0
+    depends_on:
+      - db
+      - redis
+    healthcheck:
+      <<: *healthcheck
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+
+  # RGPD : consentements, export et suppression des données
+  compliance:
+    <<: *agent
+    build: ./agents/compliance
+    container_name: trustdevis-compliance
+    ports:
+      - "127.0.0.1:8007:8003"
+    environment:
+      <<: *db-url
+    healthcheck:
+      <<: *healthcheck
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8003/health')"]
+
+  # Abonnements Stripe (mode test)
+  billing:
+    <<: *agent
+    build: ./agents/billing
+    container_name: trustdevis-billing
+    ports:
+      - "127.0.0.1:8008:8000"
+    environment:
+      <<: *db-url
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+    healthcheck:
+      <<: *healthcheck
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+
+  db:
+    image: postgres:15-alpine
+    container_name: trustdevis-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-trustdevis}
+      POSTGRES_USER: ${POSTGRES_USER:-trustdevis}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-trustdevis_local}
+    networks:
+      - trustdevis-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: trustdevis-redis
+    restart: unless-stopped
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:-trustdevis_local}"]
+    networks:
+      - trustdevis-network
+    volumes:
+      - redis-data:/data
+
+networks:
+  trustdevis-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  redis-data:

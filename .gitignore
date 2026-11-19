@@ -1,0 +1,65 @@
+# --- Secrets & config locale ---
+.env
+*.env
+!.env.example
+*.pem
+*.key
+
+# --- Python / Node ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
+.pytest_cache/
+
+# --- Données générées à l'exécution (recréées au démarrage) ---
+*.db
+*.sqlite
+*.sqlite3
+*.log
+agents/marketscore/results/
+data/pricing/reddit_*.json
+data/pricing/consolidated_*.json
+
+# --- Archives et fichiers de travail ---
+*.tar.gz
+*.zip
+logo_*.png
+logo_*.svg
+!logo_trustdevis.png
+!logo_trustdevis.svg
+favicon_final.png
+
+# --- Notes internes / exploitation du serveur (non publiques) ---
+CHECKLIST*.md
+RAPPORT_*.md
+VPS_STATUS.md
+DEPLOY.md
+STRATEGIE_*.md
+documents/
+docs/RAPPORT_NUIT.md
+docs/STRATEGIE_DOMINATION.md
+docs/PLAN_STRATEGIQUE_v2.md
+docs/CONCURRENCE.md
+docs/PROPOSITIONS_LOGO.md
+docs/AGENTS_AVATARS_BIOS.md
+admin/
+docs-hub/
+growth/
+social-media/
+agents/bizdev/
+
+# --- Ancienne stack (backend/frontend jamais terminés, infra du VPS) ---
+backend/
+frontend/
+infra/
+.github/workflows/ci.yml
+
+# --- Outils ---
+.claude/
+.vscode/
+.idea/
+
+# --- Modèles ML entraînés (régénérables via agents/ml-engine/training/train_all.py) ---
+*.pkl

@@ -1,0 +1,10 @@
+pytesseract>=0.3.10
+pdf2image>=1.16.3
+Pillow>=10.0.0
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
+numpy>=1.24.0
+opencv-python-headless>=4.8.0
+regex>=2023.0.0
+pydantic>=2.5.0

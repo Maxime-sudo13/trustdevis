@@ -1,0 +1,20 @@
+{
+  "training_date": "2026-03-09T11:16:03.560346",
+  "duration_seconds": 16.872053,
+  "dataset_size": 10000,
+  "fraud_rate": 0.0827,
+  "models": {
+    "fraud": {
+      "trained": true
+    },
+    "price": {
+      "trained": true
+    },
+    "recommender": {
+      "trained": true
+    },
+    "analytics": {
+      "trained": true
+    }
+  }
+}

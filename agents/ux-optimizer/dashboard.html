@@ -1,0 +1,573 @@
+<!--
+  TrustDevis - Dashboard Analytics UX
+  Visualisation des métriques de conversion et du funnel
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrustDevis - Dashboard Analytics UX</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f7fa;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    
+    .dashboard {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      margin-bottom: 2rem;
+    }
+    
+    header h1 {
+      font-size: 2rem;
+      color: #111827;
+      margin-bottom: 0.5rem;
+    }
+    
+    header p {
+      color: #6b7280;
+    }
+    
+    .date-range {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .date-range button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #e5e7eb;
+      background: white;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .date-range button.active,
+    .date-range button:hover {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+    
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .kpi-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .kpi-label {
+      font-size: 0.875rem;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    
+    .kpi-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #111827;
+    }
+    
+    .kpi-change {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+    }
+    
+    .kpi-change.positive {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    
+    .kpi-change.negative {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    
+    /* Funnel Section */
+    .funnel-section {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .funnel-section h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+      color: #111827;
+    }
+    
+    .funnel-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .funnel-step {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .funnel-bar {
+      height: 48px;
+      background: linear-gradient(90deg, #2563eb, #3b82f6);
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      color: white;
+      font-weight: 500;
+      transition: all 0.3s;
+      min-width: 100px;
+    }
+    
+    .funnel-bar.dropoff {
+      background: linear-gradient(90deg, #ef4444, #f87171);
+    }
+    
+    .funnel-bar.conversion {
+      background: linear-gradient(90deg, #10b981, #34d399);
+    }
+    
+    .funnel-label {
+      width: 200px;
+      font-weight: 500;
+      color: #374151;
+    }
+    
+    .funnel-value {
+      font-weight: 700;
+    }
+    
+    .funnel-rate {
+      font-size: 0.875rem;
+      opacity: 0.9;
+    }
+    
+    .funnel-arrow {
+      color: #9ca3af;
+      font-size: 1.5rem;
+      margin-left: 200px;
+    }
+    
+    .funnel-dropoff {
+      margin-left: 200px;
+      padding: 0.25rem 0.75rem;
+      background: #fee2e2;
+      color: #991b1b;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+    }
+    
+    /* Charts Grid */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .chart-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .chart-card h3 {
+      font-size: 1rem;
+      color: #374151;
+      margin-bottom: 1rem;
+    }
+    
+    .chart-container {
+      position: relative;
+      height: 250px;
+    }
+    
+    /* Insights Section */
+    .insights-section {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .insights-section h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+      color: #111827;
+    }
+    
+    .insight-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .insight-item.critical {
+      background: #fef2f2;
+      border-left: 4px solid #ef4444;
+    }
+    
+    .insight-item.warning {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+    }
+    
+    .insight-item.success {
+      background: #f0fdf4;
+      border-left: 4px solid #10b981;
+    }
+    
+    .insight-icon {
+      font-size: 1.5rem;
+    }
+    
+    .insight-content h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 0.25rem;
+    }
+    
+    .insight-content p {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .dashboard {
+        padding: 1rem;
+      }
+      
+      .kpi-value {
+        font-size: 1.75rem;
+      }
+      
+      .funnel-label {
+        width: 120px;
+        font-size: 0.875rem;
+      }
+      
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <header>
+      <h1>📊 Dashboard Analytics UX</h1>
+      <p>Suivi des conversions et optimisation du parcours utilisateur</p>
+      <div class="date-range">
+        <button class="active">7 jours</button>
+        <button>30 jours</button>
+        <button>90 jours</button>
+        <button>Personnalisé</button>
+      </div>
+    </header>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Visites Landing</div>
+        <div class="kpi-value" id="kpi-visits">12,847</div>
+        <div class="kpi-change positive">
+          <span>↑</span> 12.5% vs semaine dernière
+        </div>
+      </div>
+      
+      <div class="kpi-card">
+        <div class="kpi-label">Taux de Conversion</div>
+        <div class="kpi-value" id="kpi-conversion">24.3%</div>
+        <div class="kpi-change positive">
+          <span>↑</span> 3.2% vs semaine dernière
+        </div>
+      </div>
+      
+      <div class="kpi-card">
+        <div class="kpi-label">Analyses Complétées</div>
+        <div class="kpi-value" id="kpi-analyses">3,124</div>
+        <div class="kpi-change positive">
+          <span>↑</span> 8.7% vs semaine dernière
+        </div>
+      </div>
+      
+      <div class="kpi-card">
+        <div class="kpi-label">Conversion Premium</div>
+        <div class="kpi-value" id="kpi-premium">4.2%</div>
+        <div class="kpi-change negative">
+          <span>↓</span> 1.1% vs semaine dernière
+        </div>
+      </div>
+    </div>
+
+    <!-- Funnel Section -->
+    <div class="funnel-section">
+      <h2>🔄 Funnel de Conversion</h2>
+      <div class="funnel-chart" id="funnel-chart">
+        <!-- Généré par JS -->
+      </div>
+    </div>
+
+    <!-- Charts Grid -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>Évolution des conversions</h3>
+        <div class="chart-container">
+          <canvas id="conversionChart"></canvas>
+        </div>
+      </div>
+      
+      <div class="chart-card">
+        <h3>Répartition par device</h3>
+        <div class="chart-container">
+          <canvas id="deviceChart"></canvas>
+        </div>
+      </div>
+      
+      <div class="chart-card">
+        <h3>Temps moyen par étape</h3>
+        <div class="chart-container">
+          <canvas id="timeChart"></canvas>
+        </div>
+      </div>
+      
+      <div class="chart-card">
+        <h3>Sources de traffic</h3>
+        <div class="chart-container">
+          <canvas id="sourceChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Insights Section -->
+    <div class="insights-section">
+      <h2>💡 Insights & Recommandations</h2>
+      
+      <div class="insight-item critical">
+        <span class="insight-icon">🚨</span>
+        <div class="insight-content">
+          <h4>Drop important à l'étape RGPD</h4>
+          <p>30% des utilisateurs abandonnent au moment de cocher la case de consentement. Solution recommandée : cocher par défaut avec texte simplifié.</p>
+        </div>
+      </div>
+      
+      <div class="insight-item warning">
+        <span class="insight-icon">⚠️</span>
+        <div class="insight-content">
+          <h4>Conversion mobile en baisse</h4>
+          <p>Le taux de conversion sur mobile est 40% inférieur à desktop. Le menu mobile n'est pas fonctionnel.</p>
+        </div>
+      </div>
+      
+      <div class="insight-item warning">
+        <span class="insight-icon">📉</span>
+        <div class="insight-content">
+          <h4>CTA Premium peu cliqué</h4>
+          <p>Seulement 4.2% des utilisateurs cliquent sur "Analyse détaillée". Le prix n'est pas affiché sur le résultat.</p>
+        </div>
+      </div>
+      
+      <div class="insight-item success">
+        <span class="insight-icon">✅</span>
+        <div class="insight-content">
+          <h4>Taux de complétion excellent</h4>
+          <p>95% des analyses lancées sont complétées. Le temps d'attente est bien accepté.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Données du funnel (à remplacer par des données réelles)
+    const funnelData = [
+      { label: 'Visites Landing', value: 12847, color: 'primary' },
+      { label: 'Scroll jusqu\'à Upload', value: 10920, color: 'primary' },
+      { label: 'Fichier sélectionné', value: 6245, color: 'primary' },
+      { label: 'Consentement donné', value: 4372, color: 'primary' },
+      { label: 'Analyse lancée', value: 3898, color: 'primary' },
+      { label: 'Analyse complétée', value: 3703, color: 'conversion' },
+      { label: 'CTA Premium cliqué', value: 156, color: 'conversion' },
+    ];
+
+    // Rendu du funnel
+    function renderFunnel() {
+      const container = document.getElementById('funnel-chart');
+      const maxValue = funnelData[0].value;
+      
+      funnelData.forEach((step, index) => {
+        const percentage = (step.value / maxValue) * 100;
+        const prevValue = index > 0 ? funnelData[index - 1].value : step.value;
+        const conversionRate = index > 0 ? ((step.value / prevValue) * 100).toFixed(1) : 100;
+        const dropoff = index > 0 ? prevValue - step.value : 0;
+        
+        const stepEl = document.createElement('div');
+        stepEl.className = 'funnel-step';
+        stepEl.innerHTML = `
+          <div class="funnel-label">${step.label}</div>
+          <div class="funnel-bar ${step.color}" style="width: ${Math.max(percentage, 10)}%">
+            <span class="funnel-value">${step.value.toLocaleString()}</span>
+            <span class="funnel-rate">${conversionRate}%</span>
+          </div>
+        `;
+        container.appendChild(stepEl);
+        
+        // Ajouter flèche et dropoff si ce n'est pas la dernière étape
+        if (index < funnelData.length - 1) {
+          const arrowEl = document.createElement('div');
+          arrowEl.className = 'funnel-arrow';
+          arrowEl.innerHTML = '↓';
+          container.appendChild(arrowEl);
+          
+          if (dropoff > 0) {
+            const dropoffEl = document.createElement('div');
+            dropoffEl.className = 'funnel-dropoff';
+            dropoffEl.innerHTML = `-${dropoff.toLocaleString()} (${((dropoff/prevValue)*100).toFixed(1)}%)`;
+            container.appendChild(dropoffEl);
+          }
+        }
+      });
+    }
+
+    // Initialisation des graphiques
+    function initCharts() {
+      // Graphique de conversion
+      const conversionCtx = document.getElementById('conversionChart').getContext('2d');
+      new Chart(conversionCtx, {
+        type: 'line',
+        data: {
+          labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+          datasets: [{
+            label: 'Conversions',
+            data: [450, 520, 480, 590, 620, 380, 410],
+            borderColor: '#2563eb',
+            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, grid: { color: '#f3f4f6' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+
+      // Graphique par device
+      const deviceCtx = document.getElementById('deviceChart').getContext('2d');
+      new Chart(deviceCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Mobile', 'Desktop', 'Tablet'],
+          datasets: [{
+            data: [55, 38, 7],
+            backgroundColor: ['#2563eb', '#10b981', '#f59e0b']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '60%'
+        }
+      });
+
+      // Graphique temps par étape
+      const timeCtx = document.getElementById('timeChart').getContext('2d');
+      new Chart(timeCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Landing', 'Upload', 'Analyse', 'Résultat'],
+          datasets: [{
+            label: 'Temps moyen (secondes)',
+            data: [45, 25, 5, 60],
+            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, grid: { color: '#f3f4f6' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+
+      // Graphique sources
+      const sourceCtx = document.getElementById('sourceChart').getContext('2d');
+      new Chart(sourceCtx, {
+        type: 'pie',
+        data: {
+          labels: ['Direct', 'Google', 'Réseaux sociaux', 'Email', 'Referral'],
+          datasets: [{
+            data: [35, 40, 15, 7, 3],
+            backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+    }
+
+    // Initialisation
+    document.addEventListener('DOMContentLoaded', () => {
+      renderFunnel();
+      initCharts();
+    });
+  </script>
+</body>
+</html>

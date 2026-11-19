@@ -1,0 +1,47 @@
+{
+  "models": {
+    "fraud_detection": {
+      "algorithm": "xgboost",
+      "version": "1.0.0",
+      "features": ["prix", "region", "saison", "artisan_id", "type_travaux", "surface", "nb_devis_similaires"],
+      "threshold": 0.7,
+      "retrain_frequency_days": 7
+    },
+    "price_prediction": {
+      "algorithm": "xgboost",
+      "version": "1.0.0",
+      "features": ["type_travaux", "region", "surface", "materiaux", "complexite", "saison"],
+      "confidence_level": 0.95,
+      "retrain_frequency_days": 14
+    },
+    "artisan_scoring": {
+      "algorithm": "random_forest",
+      "version": "1.0.0",
+      "features": ["note_moyenne", "nb_avis", "anciennete", "certifications", "taux_completion", "delai_moyen"],
+      "retrain_frequency_days": 30
+    },
+    "market_analytics": {
+      "algorithm": "prophet",
+      "version": "1.0.0",
+      "forecast_horizon_days": 90,
+      "retrain_frequency_days": 7
+    }
+  },
+  "data": {
+    "min_samples_for_training": 100,
+    "test_size": 0.2,
+    "validation_size": 0.1,
+    "random_state": 42
+  },
+  "api": {
+    "host": "0.0.0.0",
+    "port": 8000,
+    "workers": 4,
+    "timeout": 30
+  },
+  "monitoring": {
+    "metrics_retention_days": 30,
+    "alert_threshold_f1": 0.75,
+    "drift_detection_enabled": true
+  }
+}

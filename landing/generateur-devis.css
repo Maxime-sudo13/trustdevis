@@ -1,0 +1,715 @@
+/* ============================================
+   TrustDevis - Générateur de Devis Styles
+   ============================================ */
+
+/* Hero spécifique générateur */
+.generateur-hero {
+    padding: calc(64px + var(--spacing-12)) var(--spacing-4) var(--spacing-8);
+    background: linear-gradient(180deg, var(--color-gray-50) 0%, #ffffff 100%);
+}
+
+.generateur-hero .hero-title {
+    font-size: var(--font-size-3xl);
+}
+
+@media (min-width: 768px) {
+    .generateur-hero .hero-title {
+        font-size: var(--font-size-4xl);
+    }
+}
+
+/* Navigation spécifique */
+.nav-back {
+    color: var(--color-primary) !important;
+    font-weight: 600;
+}
+
+.nav-links a.active {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* Section formulaire */
+.formulaire-section {
+    padding: var(--spacing-8) var(--spacing-4) var(--spacing-16);
+    background: white;
+}
+
+/* Progress Bar */
+.progress-steps-container {
+    max-width: 600px;
+    margin: 0 auto var(--spacing-12);
+    position: relative;
+}
+
+.progress-bar-line {
+    height: 4px;
+    background: var(--color-gray-200);
+    border-radius: var(--radius-full);
+    position: absolute;
+    top: 20px;
+    left: 60px;
+    right: 60px;
+    z-index: 0;
+}
+
+.progress-fill-line {
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: var(--radius-full);
+    width: 0%;
+    transition: width 0.4s ease;
+}
+
+.steps-indicator {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.step-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--color-gray-300);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--color-gray-400);
+    transition: all 0.3s ease;
+}
+
+.step-item.active .step-circle,
+.step-item.completed .step-circle {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+}
+
+.step-item.completed .step-circle {
+    background: var(--color-success);
+    border-color: var(--color-success);
+}
+
+.step-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-500);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.step-item.active .step-label {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* Formulaire */
+.generateur-form {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.form-step {
+    display: none;
+    animation: fadeInStep 0.4s ease;
+}
+
+.form-step.active {
+    display: block;
+}
+
+@keyframes fadeInStep {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.step-title {
+    font-size: var(--font-size-2xl);
+    text-align: center;
+    margin-bottom: var(--spacing-8);
+    color: var(--color-gray-900);
+}
+
+/* Type de travaux */
+.type-travaux-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-6);
+}
+
+@media (min-width: 640px) {
+    .type-travaux-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.type-card {
+    cursor: pointer;
+}
+
+.type-card input {
+    position: absolute;
+    opacity: 0;
+}
+
+.type-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-5) var(--spacing-3);
+    background: white;
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.type-card:hover .type-content {
+    border-color: var(--color-primary-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.type-card input:checked + .type-content {
+    border-color: var(--color-primary);
+    background: rgba(37, 99, 235, 0.05);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.type-icon {
+    font-size: 2rem;
+}
+
+.type-name {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-gray-700);
+}
+
+.type-card input:checked + .type-content .type-name {
+    color: var(--color-primary);
+}
+
+/* Autre type */
+.autre-type {
+    margin-bottom: var(--spacing-8);
+}
+
+.autre-type .checkbox-label {
+    margin-bottom: var(--spacing-3);
+}
+
+#autre-input {
+    margin-left: 28px;
+    max-width: 300px;
+}
+
+#autre-input:disabled {
+    background: var(--color-gray-100);
+    cursor: not-allowed;
+}
+
+/* Form inputs */
+.form-group {
+    margin-bottom: var(--spacing-6);
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: var(--color-gray-700);
+    margin-bottom: var(--spacing-2);
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: var(--font-size-base);
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Matériaux options */
+.materiaux-options,
+.urgence-options {
+    display: grid;
+    gap: var(--spacing-3);
+}
+
+@media (min-width: 640px) {
+    .materiaux-options,
+    .urgence-options {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.materiau-card,
+.urgence-card {
+    cursor: pointer;
+}
+
+.materiau-card input,
+.urgence-card input {
+    position: absolute;
+    opacity: 0;
+}
+
+.materiau-content,
+.urgence-content {
+    padding: var(--spacing-4);
+    background: white;
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.materiau-card:hover .materiau-content,
+.urgence-card:hover .urgence-content {
+    border-color: var(--color-primary-light);
+}
+
+.materiau-card input:checked + .materiau-content,
+.urgence-card input:checked + .urgence-content {
+    border-color: var(--color-primary);
+    background: rgba(37, 99, 235, 0.05);
+}
+
+.materiau-name,
+.urgence-name {
+    display: block;
+    font-weight: 600;
+    color: var(--color-gray-800);
+    margin-bottom: var(--spacing-1);
+}
+
+.materiau-card input:checked + .materiau-content .materiau-name,
+.urgence-card input:checked + .urgence-content .urgence-name {
+    color: var(--color-primary);
+}
+
+.materiau-desc,
+.urgence-desc {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-500);
+}
+
+/* Navigation formulaire */
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-8);
+    padding-top: var(--spacing-6);
+    border-top: 1px solid var(--color-gray-200);
+}
+
+.form-navigation .btn-prev {
+    margin-right: auto;
+}
+
+.form-navigation .btn-next,
+.form-navigation [type="submit"] {
+    margin-left: auto;
+}
+
+/* Loading State */
+.loading-state {
+    text-align: center;
+    padding: var(--spacing-16) var(--spacing-4);
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto var(--spacing-6);
+    border: 4px solid var(--color-gray-200);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-state h3 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-2);
+}
+
+.loading-state p {
+    color: var(--color-gray-500);
+    margin-bottom: var(--spacing-6);
+}
+
+.loading-progress {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.loading-bar {
+    height: 8px;
+    background: var(--color-gray-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: var(--spacing-2);
+}
+
+.loading-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    width: 0%;
+    transition: width 0.3s ease;
+    animation: loadingProgress 2s ease-in-out infinite;
+}
+
+@keyframes loadingProgress {
+    0% { width: 0%; }
+    50% { width: 70%; }
+    100% { width: 100%; }
+}
+
+.loading-percent {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-500);
+}
+
+/* Résultats Section */
+.resultats-section {
+    animation: fadeInStep 0.5s ease;
+}
+
+.resultats-title {
+    font-size: var(--font-size-3xl);
+    text-align: center;
+    margin-bottom: var(--spacing-2);
+}
+
+.resultats-subtitle {
+    text-align: center;
+    color: var(--color-gray-500);
+    margin-bottom: var(--spacing-10);
+}
+
+/* Cartes devis */
+.devis-cards {
+    display: grid;
+    gap: var(--spacing-6);
+    margin-bottom: var(--spacing-12);
+}
+
+@media (min-width: 768px) {
+    .devis-cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.devis-card {
+    background: white;
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-2xl);
+    padding: var(--spacing-6);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.devis-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.devis-card.featured {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-xl);
+    transform: scale(1.02);
+}
+
+.devis-card.featured:hover {
+    transform: scale(1.02) translateY(-4px);
+}
+
+.devis-badge-popular {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-primary);
+    color: white;
+    padding: var(--spacing-1) var(--spacing-4);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+}
+
+.devis-header {
+    text-align: center;
+    margin-bottom: var(--spacing-6);
+}
+
+.devis-badge {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    margin-bottom: var(--spacing-2);
+}
+
+.devis-header h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-1);
+}
+
+.devis-header p {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-500);
+}
+
+.devis-price {
+    text-align: center;
+    padding: var(--spacing-6) 0;
+    border-top: 1px solid var(--color-gray-100);
+    border-bottom: 1px solid var(--color-gray-100);
+    margin-bottom: var(--spacing-6);
+}
+
+.price-amount {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    color: var(--color-gray-900);
+}
+
+.price-unit {
+    font-size: var(--font-size-base);
+    color: var(--color-gray-500);
+}
+
+.devis-card.economique .price-amount {
+    color: var(--color-success);
+}
+
+.devis-card.standard .price-amount {
+    color: var(--color-primary);
+}
+
+.devis-card.premium .price-amount {
+    color: var(--color-warning);
+}
+
+.devis-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-sm);
+}
+
+.detail-row span:first-child {
+    color: var(--color-gray-500);
+}
+
+.detail-row span:last-child {
+    font-weight: 600;
+    color: var(--color-gray-700);
+}
+
+/* Répartition des coûts */
+.repartition-section {
+    background: var(--color-gray-50);
+    border-radius: var(--radius-2xl);
+    padding: var(--spacing-8);
+    margin-bottom: var(--spacing-8);
+}
+
+.repartition-section h3 {
+    text-align: center;
+    margin-bottom: var(--spacing-6);
+}
+
+.repartition-chart {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.chart-bar {
+    display: flex;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.chart-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    transition: width 0.5s ease;
+}
+
+.chart-segment.mo {
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+}
+
+.chart-segment.materiaux {
+    background: linear-gradient(90deg, var(--color-success) 0%, #34d399 100%);
+}
+
+/* Tableau comparatif */
+.comparaison-section {
+    margin-bottom: var(--spacing-10);
+}
+
+.comparaison-section h3 {
+    text-align: center;
+    margin-bottom: var(--spacing-6);
+}
+
+.comparaison-table-wrapper {
+    overflow-x: auto;
+}
+
+.comparaison-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.comparaison-table th,
+.comparaison-table td {
+    padding: var(--spacing-4);
+    text-align: center;
+}
+
+.comparaison-table th {
+    background: var(--color-gray-800);
+    color: white;
+    font-weight: 600;
+}
+
+.comparaison-table th:first-child {
+    text-align: left;
+}
+
+.comparaison-table td:first-child {
+    text-align: left;
+    font-weight: 500;
+    color: var(--color-gray-700);
+}
+
+.comparaison-table tbody tr:nth-child(even) {
+    background: var(--color-gray-50);
+}
+
+.comparaison-table tbody tr:hover {
+    background: rgba(37, 99, 235, 0.05);
+}
+
+.eco-col {
+    color: var(--color-success);
+    font-weight: 600;
+}
+
+.std-col {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.prem-col {
+    color: var(--color-warning);
+    font-weight: 600;
+}
+
+/* Actions résultats */
+.resultats-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+    .resultats-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .resultats-actions .btn {
+        flex: 1;
+        min-width: 250px;
+    }
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .step-label {
+        font-size: var(--font-size-xs);
+    }
+    
+    .progress-bar-line {
+        left: 30px;
+        right: 30px;
+    }
+    
+    .step-circle {
+        width: 36px;
+        height: 36px;
+        font-size: var(--font-size-sm);
+    }
+    
+    .devis-card.featured {
+        transform: none;
+        order: -1;
+    }
+    
+    .devis-card.featured:hover {
+        transform: translateY(-4px);
+    }
+    
+    .chart-segment .segment-label {
+        font-size: var(--font-size-xs);
+    }
+}

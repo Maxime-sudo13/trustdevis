@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générer un devis - TrustDevis</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="generateur-devis.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🛡️</span>
+                <span class="logo-text">TrustDevis</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">← Analyser mon devis</a>
+                <a href="generer-devis.html" class="active">Générer un devis</a>
+                <a href="../docs/ARCHITECTURE.md">Documents</a>
+                <a href="../dashboard/index.html" class="btn btn-outline">Espace Pro</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero generateur-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Obtenez 3 devis comparatifs en 2 minutes</h1>
+                <p class="hero-subtitle">Décrivez vos travaux, recevez des estimations de professionnels de votre région</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulaire Section -->
+    <section id="formulaire" class="formulaire-section">
+        <div class="container">
+            <!-- Progress Bar -->
+            <div class="progress-steps-container">
+                <div class="progress-bar-line">
+                    <div class="progress-fill-line" id="progress-fill-line"></div>
+                </div>
+                <div class="steps-indicator">
+                    <div class="step-item active" data-step="1">
+                        <div class="step-circle">1</div>
+                        <span class="step-label">Type de travaux</span>
+                    </div>
+                    <div class="step-item" data-step="2">
+                        <div class="step-circle">2</div>
+                        <span class="step-label">Détails</span>
+                    </div>
+                    <div class="step-item" data-step="3">
+                        <div class="step-circle">3</div>
+                        <span class="step-label">Contact</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulaire -->
+            <form id="generateur-form" class="generateur-form">
+                <!-- Étape 1: Type de travaux -->
+                <div class="form-step active" data-step="1">
+                    <h2 class="step-title">Quel type de travaux souhaitez-vous réaliser ?</h2>
+                    
+                    <div class="type-travaux-grid">
+                        <label class="type-card">
+                            <input type="radio" name="type-travaux" value="plomberie">
+                            <div class="type-content">
+                                <span class="type-icon">🔧</span>
+                                <span class="type-name">Plomberie</span>
+                            </div>
+                        </label>
+                        <label class="type-card">
+                            <input type="radio" name="type-travaux" value="electricite">
+                            <div class="type-content">
+                                <span class="type-icon">⚡</span>
+                                <span class="type-name">Électricité</span>
+                            </div>
+                        </label>
+                        <label class="type-card">
+                            <input type="radio" name="type-travaux" value="peinture">
+                            <div class="type-content">
+                                <span class="type-icon">🎨</span>
+                                <span class="type-name">Peinture</span>
+                            </div>
+                        </label>
+                        <label class="type-card">
+                            <input type="radio" name="type-travaux" value="carrelage">
+                            <div class="type-content">
+                                <span class="type-icon">🏗️</span>
+                                <span class="type-name">Carrelage</span>
+                            </div>
+                        </label>
+                        <label class="type-card">
+                            <input type="radio" name="type-travaux" value="menuiserie">
+                            <div class="type-content">
+                                <span class="type-icon">🚪</span>
+                                <span class="type-name">Menuiserie</span>
+                            </div>
+                        </label>
+                        <label class="type-card">
+                            <input type="radio" name="type-travaux" value="toiture">
+                            <div class="type-content">
+                                <span class="type-icon">🏠</span>
+                                <span class="type-name">Toiture</span>
+                            </div>
+                        </label>
+                        <label class="type-card">
+                            <input type="radio" name="type-travaux" value="chauffage">
+                            <div class="type-content">
+                                <span class="type-icon">🔥</span>
+                                <span class="type-name">Chauffage</span>
+                            </div>
+                        </label>
+                        <label class="type-card">
+                            <input type="radio" name="type-travaux" value="renovation">
+                            <div class="type-content">
+                                <span class="type-icon">🏡</span>
+                                <span class="type-name">Rénovation complète</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="autre-type">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="autre-checkbox">
+                            <span class="checkmark"></span>
+                            <span class="checkbox-text">Autre (précisez)</span>
+                        </label>
+                        <input type="text" id="autre-input" class="form-input" placeholder="Décrivez votre type de travaux" disabled>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-primary btn-next" id="btn-step-1" disabled>
+                            Continuer
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Étape 2: Détails -->
+                <div class="form-step" data-step="2">
+                    <h2 class="step-title">Décrivez votre projet</h2>
+                    
+                    <div class="form-group">
+                        <label for="surface">Surface (m²)</label>
+                        <input type="number" id="surface" name="surface" class="form-input" placeholder="Ex: 25" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description des travaux</label>
+                        <textarea id="description" name="description" class="form-textarea" rows="4" placeholder="Décrivez en détail ce que vous souhaitez faire..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Matériaux souhaités</label>
+                        <div class="materiaux-options">
+                            <label class="materiau-card">
+                                <input type="radio" name="materiaux" value="standard">
+                                <div class="materiau-content">
+                                    <span class="materiau-name">Standard</span>
+                                    <span class="materiau-desc">Qualité correcte, prix contenu</span>
+                                </div>
+                            </label>
+                            <label class="materiau-card">
+                                <input type="radio" name="materiaux" value="premium">
+                                <div class="materiau-content">
+                                    <span class="materiau-name">Premium</span>
+                                    <span class="materiau-desc">Haut de gamme, finition soignée</span>
+                                </div>
+                            </label>
+                            <label class="materiau-card">
+                                <input type="radio" name="materiaux" value="eco">
+                                <div class="materiau-content">
+                                    <span class="materiau-name">Éco</span>
+                                    <span class="materiau-desc">Matériaux durables et économiques</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary btn-prev">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15 18 9 12 15 6"/>
+                            </svg>
+                            Retour
+                        </button>
+                        <button type="button" class="btn btn-primary btn-next" id="btn-step-2" disabled>
+                            Continuer
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Étape 3: Localisation & Contact -->
+                <div class="form-step" data-step="3">
+                    <h2 class="step-title">Où et comment vous contacter ?</h2>
+                    
+                    <div class="form-group">
+                        <label for="code-postal">Code postal *</label>
+                        <input type="text" id="code-postal" name="code-postal" class="form-input" placeholder="Ex: 75001" pattern="[0-9]{5}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="votre@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telephone">Téléphone (optionnel)</label>
+                        <input type="tel" id="telephone" name="telephone" class="form-input" placeholder="06 12 34 56 78">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Urgence</label>
+                        <div class="urgence-options">
+                            <label class="urgence-card">
+                                <input type="radio" name="urgence" value="standard" checked>
+                                <div class="urgence-content">
+                                    <span class="urgence-name">Standard</span>
+                                    <span class="urgence-desc">Dans les 2-3 semaines</span>
+                                </div>
+                            </label>
+                            <label class="urgence-card">
+                                <input type="radio" name="urgence" value="1mois">
+                                <div class="urgence-content">
+                                    <span class="urgence-name">Dans 1 mois</span>
+                                    <span class="urgence-desc">Pas de précipitation</span>
+                                </div>
+                            </label>
+                            <label class="urgence-card">
+                                <input type="radio" name="urgence" value="urgent">
+                                <div class="urgence-content">
+                                    <span class="urgence-name">Urgent</span>
+                                    <span class="urgence-desc">Dès que possible</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary btn-prev">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15 18 9 12 15 6"/>
+                            </svg>
+                            Retour
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="btn-submit">
+                            Générer mes devis
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Loading State -->
+            <div id="loading-state" class="loading-state" style="display: none;">
+                <div class="loading-spinner"></div>
+                <h3>Génération de vos devis en cours...</h3>
+                <p>Nous calculons les estimations basées sur les données du marché</p>
+                <div class="loading-progress">
+                    <div class="loading-bar">
+                        <div class="loading-fill"></div>
+                    </div>
+                    <span class="loading-percent">0%</span>
+                </div>
+            </div>
+
+            <!-- Résultats -->
+            <div id="resultats-section" class="resultats-section" style="display: none;">
+                <h2 class="resultats-title">Vos 3 devis estimatifs</h2>
+                <p class="resultats-subtitle">Basé sur les données du marché pour votre projet</p>
+
+                <!-- Cartes devis -->
+                <div class="devis-cards">
+                    <!-- Économique -->
+                    <div class="devis-card economique">
+                        <div class="devis-header">
+                            <span class="devis-badge">🟢 ÉCONOMIQUE</span>
+                            <h3>Prix bas</h3>
+                            <p>Matériaux standard</p>
+                        </div>
+                        <div class="devis-price">
+                            <span class="price-amount" id="prix-economique">--</span>
+                            <span class="price-unit">€ TTC</span>
+                        </div>
+                        <div class="devis-details">
+                            <div class="detail-row">
+                                <span>Main d'œuvre</span>
+                                <span id="mo-economique">--</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Matériaux</span>
+                                <span id="mat-economique">--</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Durée estimée</span>
+                                <span id="duree-economique">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Standard -->
+                    <div class="devis-card standard featured">
+                        <div class="devis-badge-popular">Recommandé</div>
+                        <div class="devis-header">
+                            <span class="devis-badge">🔵 STANDARD</span>
+                            <h3>Prix moyen</h3>
+                            <p>Bon rapport qualité/prix</p>
+                        </div>
+                        <div class="devis-price">
+                            <span class="price-amount" id="prix-standard">--</span>
+                            <span class="price-unit">€ TTC</span>
+                        </div>
+                        <div class="devis-details">
+                            <div class="detail-row">
+                                <span>Main d'œuvre</span>
+                                <span id="mo-standard">--</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Matériaux</span>
+                                <span id="mat-standard">--</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Durée estimée</span>
+                                <span id="duree-standard">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Premium -->
+                    <div class="devis-card premium">
+                        <div class="devis-header">
+                            <span class="devis-badge">🟡 PREMIUM</span>
+                            <h3>Prix haut</h3>
+                            <p>Matériaux haut de gamme</p>
+                        </div>
+                        <div class="devis-price">
+                            <span class="price-amount" id="prix-premium">--</span>
+                            <span class="price-unit">€ TTC</span>
+                        </div>
+                        <div class="devis-details">
+                            <div class="detail-row">
+                                <span>Main d'œuvre</span>
+                                <span id="mo-premium">--</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Matériaux</span>
+                                <span id="mat-premium">--</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Durée estimée</span>
+                                <span id="duree-premium">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Graphique répartition -->
+                <div class="repartition-section">
+                    <h3>Répartition des coûts</h3>
+                    <div class="repartition-chart">
+                        <div class="chart-bar">
+                            <div class="chart-segment mo" style="width: 60%">
+                                <span class="segment-label">Main d'œuvre 60%</span>
+                            </div>
+                            <div class="chart-segment materiaux" style="width: 40%">
+                                <span class="segment-label">Matériaux 40%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tableau comparatif -->
+                <div class="comparaison-section">
+                    <h3>Tableau comparatif</h3>
+                    <div class="comparaison-table-wrapper">
+                        <table class="comparaison-table">
+                            <thead>
+                                <tr>
+                                    <th>Critère</th>
+                                    <th class="eco-col">Économique</th>
+                                    <th class="std-col">Standard</th>
+                                    <th class="prem-col">Premium</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Prix total</td>
+                                    <td class="eco-col" id="table-prix-eco">--</td>
+                                    <td class="std-col" id="table-prix-std">--</td>
+                                    <td class="prem-col" id="table-prix-prem">--</td>
+                                </tr>
+                                <tr>
+                                    <td>Qualité matériaux</td>
+                                    <td class="eco-col">Standard</td>
+                                    <td class="std-col">Bon</td>
+                                    <td class="prem-col">Excellente</td>
+                                </tr>
+                                <tr>
+                                    <td>Garantie</td>
+                                    <td class="eco-col">1 an</td>
+                                    <td class="std-col">2 ans</td>
+                                    <td class="prem-col">5 ans</td>
+                                </tr>
+                                <tr>
+                                    <td>Délai réalisation</td>
+                                    <td class="eco-col">Standard</td>
+                                    <td class="std-col">Rapide</td>
+                                    <td class="prem-col">Prioritaire</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CTAs -->
+                <div class="resultats-actions">
+                    <button class="btn btn-primary btn-large" id="btn-email">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        Recevoir ces devis par email
+                    </button>
+                    <button class="btn btn-secondary btn-large" id="btn-artisans">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        Être mis en relation avec des artisans
+                    </button>
+                    <a href="index.html#upload-section" class="btn btn-outline btn-large">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 17H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-4"/>
+                            <polyline points="9 17 9 21 15 21 15 17"/>
+                            <rect x="9" y="11" width="6" height="6"/>
+                        </svg>
+                        Comparer avec d'autres professionnels
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">🛡️</span>
+                        <span class="logo-text">TrustDevis</span>
+                    </a>
+                    <p>Vérifiez vos devis en toute confiance. Analyse IA pour tous vos projets.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Produit</h4>
+                    <ul>
+                        <li><a href="index.html#comment-ca-marche">Comment ça marche</a></li>
+                        <li><a href="index.html#tarifs">Tarifs</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Entreprise</h4>
+                    <ul>
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Carrières</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Légal</h4>
+                    <ul>
+                        <li><a href="#">Mentions légales</a></li>
+                        <li><a href="#">CGU</a></li>
+                        <li><a href="#">Confidentialité</a></li>
+                        <li><a href="#">RGPD</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:contact@trustdevis.com">contact@trustdevis.com</a></li>
+                        <li><a href="#">Centre d'aide</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 TrustDevis. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="generateur-devis.js"></script>
+</body>
+</html>

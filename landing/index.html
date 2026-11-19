@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrustDevis - Votre devis est-il honnête ?</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <span class="logo-icon">🛡️</span>
+                <span class="logo-text">TrustDevis</span>
+            </a>
+            <div class="nav-links">
+                <div class="dropdown">
+                    <a href="#" class="nav-link">À propos ▼</a>
+                    <div class="dropdown-content">
+                        <a href="#qui-sommes-nous">Qui sommes-nous</a>
+                        <a href="#notre-mission">Notre mission</a>
+                        <a href="#equipe">L'équipe</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="nav-link">Nos solutions ▼</a>
+                    <div class="dropdown-content">
+                        <a href="/">Analyser mon devis</a>
+                        <a href="generer-devis.html">Générer un devis</a>
+                        <a href="../dashboard/index.html">Espace Pro (Artisans)</a>
+                    </div>
+                </div>
+                <a href="../docs/ARCHITECTURE.md" class="nav-link">Documentation</a>
+                <a href="../dashboard/index.html" class="btn btn-outline">Connexion</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Votre devis est-il honnête ?</h1>
+                <p class="hero-subtitle">Analysez-le gratuitement en 2 minutes</p>
+                <a href="#upload-section" class="btn btn-primary btn-large">
+                    Analyser mon devis
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <div class="hero-or">
+                    <span>ou</span>
+                </div>
+                <div class="alternative-cta">
+                    <a href="generer-devis.html" class="btn btn-secondary btn-large">
+                        Obtenir 3 devis estimatifs
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <p class="alternative-hint">Décrivez vos travaux, recevez 3 estimations comparatives</p>
+                </div>
+                <div class="social-proof">
+                    <div class="counter">
+                        <span class="counter-number" id="devis-counter">12,847</span>
+                        <span class="counter-label">devis analysés ce mois</span>
+                    </div>
+                    <div class="stars">
+                        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+                        <span class="stars-text">4.8/5 sur 2,341 avis</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="hero-visual">
+                <div class="trust-badge-demo">
+                    <div class="demo-badge green">
+                        <span class="demo-score">87</span>
+                        <span class="demo-label">Devis conforme</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section id="upload-section" class="upload-section">
+        <div class="container">
+            <h2 class="section-title">Analysez votre devis maintenant</h2>
+            
+            <div class="upload-card">
+                <div class="upload-zone" id="drop-zone">
+                    <div class="upload-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.5">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                    </div>
+                    <p class="upload-text">Glissez votre devis PDF ou photo</p>
+                    <p class="upload-subtext">ou</p>
+                    <button class="btn btn-secondary" id="select-file-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                        Sélectionner un fichier
+                    </button>
+                    <button class="btn btn-photo" id="take-photo-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                            <circle cx="12" cy="13" r="4"/>
+                        </svg>
+                        Prendre une photo
+                    </button>
+                    <input type="file" id="file-input" accept=".pdf,image/*" hidden>
+                    <input type="file" id="camera-input" accept="image/*" capture="environment" hidden>
+                </div>
+
+                <div class="file-preview" id="file-preview" style="display: none;">
+                    <div class="preview-content">
+                        <div class="file-icon">📄</div>
+                        <div class="file-info">
+                            <span class="file-name" id="file-name"></span>
+                            <span class="file-size" id="file-size"></span>
+                        </div>
+                        <button class="btn-remove" id="remove-file" aria-label="Supprimer">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="rgpd-checkbox">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rgpd-consent" required>
+                        <span class="checkmark"></span>
+                        <span class="checkbox-text">
+                            J'accepte que mon devis soit analysé par notre IA. 
+                            <a href="#" class="link">En savoir plus sur la confidentialité</a>
+                        </span>
+                    </label>
+                </div>
+
+                <button class="btn btn-primary btn-full" id="analyze-btn" disabled>
+                    Lancer l'analyse
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </button>
+
+                <div class="progress-container" id="progress-container" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <p class="progress-text" id="progress-text">Analyse en cours...</p>
+                    <div class="progress-steps">
+                        <span class="step active" data-step="1">Upload</span>
+                        <span class="step" data-step="2">OCR</span>
+                        <span class="step" data-step="3">Analyse</span>
+                        <span class="step" data-step="4">Résultat</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Result Section -->
+    <section id="result-section" class="result-section" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">Résultat de l'analyse</h2>
+            
+            <div class="result-card">
+                <div class="trust-badge" id="trust-badge">
+                    <div class="badge-circle">
+                        <span class="badge-score" id="badge-score">0</span>
+                        <span class="badge-max">/100</span>
+                    </div>
+                    <div class="badge-status" id="badge-status">
+                        <span class="status-icon">⏳</span>
+                        <span class="status-text">Analyse en cours...</span>
+                    </div>
+                </div>
+
+                <div class="result-details" id="result-details">
+                    <h3>Détails de l'analyse</h3>
+                    
+                    <div class="anomalies-list" id="anomalies-list">
+                        <!-- Dynamically populated -->
+                    </div>
+
+                    <div class="market-comparison">
+                        <h4>Comparaison avec le marché</h4>
+                        <div class="comparison-card">
+                            <div class="comparison-item">
+                                <span class="comparison-label">Votre devis</span>
+                                <span class="comparison-value" id="user-price">--</span>
+                            </div>
+                            <div class="comparison-item">
+                                <span class="comparison-label">Prix médian du marché</span>
+                                <span class="comparison-value market" id="market-price">--</span>
+                            </div>
+                            <div class="comparison-item">
+                                <span class="comparison-label">Écart</span>
+                                <span class="comparison-value" id="price-diff">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <button class="btn btn-secondary" id="download-pdf">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Télécharger mon rapport PDF
+                    </button>
+                    <button class="btn btn-primary" id="get-detailed-analysis">
+                        Obtenir l'analyse détaillée
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comment ça marche -->
+    <section id="comment-ca-marche" class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Comment ça marche ?</h2>
+            
+            <div class="steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">📤</div>
+                    <h3>Upload</h3>
+                    <p>Glissez votre devis PDF ou prenez une photo. Compatible avec tous les formats.</p>
+                </div>
+                
+                <div class="step-arrow">→</div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">🤖</div>
+                    <h3>Analyse IA</h3>
+                    <p>Notre intelligence artificielle analyse chaque ligne de votre devis en quelques secondes.</p>
+                </div>
+                
+                <div class="step-arrow">→</div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">📊</div>
+                    <h3>Résultat</h3>
+                    <p>Recevez un score de confiance et une analyse détaillée des points à vérifier.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Témoignages -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Ils ont vérifié leur devis</h2>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar">SM</div>
+                        <div class="testimonial-info">
+                            <span class="name">Sophie Martin</span>
+                            <span class="location">Lyon</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-result">
+                        <span class="result-badge green">Score: 92/100</span>
+                    </div>
+                    <p class="testimonial-text">"Mon devis de rénovation de salle de bain était tout à fait correct. TrustDevis m'a rassurée avant de signer."</p>
+                    <div class="testimonial-meta">
+                        <span class="service">Rénovation salle de bain</span>
+                        <span class="date">Il y a 3 jours</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar">PD</div>
+                        <div class="testimonial-info">
+                            <span class="name">Pierre Dubois</span>
+                            <span class="location">Paris</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-result">
+                        <span class="result-badge orange">Score: 58/100</span>
+                    </div>
+                    <p class="testimonial-text">"J'ai découvert 3 lignes surfacturées sur mon devis de réparation auto. J'ai pu négocier et économiser 340€ !"</p>
+                    <div class="testimonial-meta">
+                        <span class="service">Réparation automobile</span>
+                        <span class="date">Il y a 1 semaine</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar">LB</div>
+                        <div class="testimonial-info">
+                            <span class="name">Lucas Bernard</span>
+                            <span class="location">Bordeaux</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-result">
+                        <span class="result-badge red">Score: 31/100</span>
+                    </div>
+                    <p class="testimonial-text">"Alerte sur mon devis de toiture : prix 40% au-dessus du marché. J'ai demandé d'autres devis et trouvé bien mieux."</p>
+                    <div class="testimonial-meta">
+                        <span class="service">Rénovation toiture</span>
+                        <span class="date">Il y a 2 semaines</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tarifs -->
+    <section id="tarifs" class="pricing">
+        <div class="container">
+            <h2 class="section-title">Choisissez votre formule</h2>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Gratuit</h3>
+                        <div class="price">
+                            <span class="amount">0€</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            1 analyse de devis
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Score de confiance
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Rapport PDF basique
+                        </li>
+                    </ul>
+                    <button class="btn btn-outline btn-full">Commencer</button>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="badge-popular">Populaire</div>
+                    <div class="pricing-header">
+                        <h3>Premium</h3>
+                        <div class="price">
+                            <span class="amount">5€</span>
+                            <span class="period">/mois</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Analyses illimitées
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Analyse détaillée complète
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Comparaison marché en temps réel
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Support prioritaire
+                        </li>
+                    </ul>
+                    <button class="btn btn-primary btn-full">Choisir Premium</button>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Pro</h3>
+                        <div class="price">
+                            <span class="amount">Sur mesure</span>
+                        </div>
+                        <p class="pricing-subtitle">Pour les artisans</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Devis certifiés TrustDevis
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Badge de confiance
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Plus de visibilité
+                        </li>
+                    </ul>
+                    <a href="#" class="btn btn-outline btn-full">Devenir pilote</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Prêt à vérifier votre devis ?</h2>
+            <p>C'est gratuit et ça prend 2 minutes.</p>
+            <a href="#upload-section" class="btn btn-primary btn-large">
+                Analyser mon devis maintenant
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <span class="logo-icon">🛡️</span>
+                        <span class="logo-text">TrustDevis</span>
+                    </a>
+                    <p>Vérifiez vos devis en toute confiance. Analyse IA pour tous vos projets.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Produit</h4>
+                    <ul>
+                        <li><a href="#comment-ca-marche">Comment ça marche</a></li>
+                        <li><a href="#tarifs">Tarifs</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Entreprise</h4>
+                    <ul>
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Carrières</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Légal</h4>
+                    <ul>
+                        <li><a href="#">Mentions légales</a></li>
+                        <li><a href="#">CGU</a></li>
+                        <li><a href="#">Confidentialité</a></li>
+                        <li><a href="#">RGPD</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:contact@trustdevis.com">contact@trustdevis.com</a></li>
+                        <li><a href="#">Centre d'aide</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 TrustDevis. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
